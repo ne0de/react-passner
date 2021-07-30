@@ -30,7 +30,9 @@
     ]
   },
   "react-dotenv": {
-    "whitelist": ["PASSNER_API_URL"]
+    "whitelist": [
+      "PASSNER_API_URL"
+    ]
   },
   "browserslist": {
     "production": [

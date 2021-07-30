@@ -18,8 +18,8 @@ const useForm = () => {
         try {
             e.preventDefault();
             console.log(env.PASSNER_API_URL)
-            await axios.post(env.PASSNER_API_URL + '/passner', form).then(res => {
-                alert(res)
+            await axios.post(env.PASSNER_API_URL + '/user/register', form, {withCredentials: true}).then(res => {
+                console.log(res)
             }).catch(e => {
                 console.error('There was an error!', e);
             });

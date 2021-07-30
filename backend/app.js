@@ -10,11 +10,14 @@ var cors = require('cors');
 
 /* dir routes */
 var indexRouter = require('./routes/index');
+var userRouter = require('./routes/user');
 
 /* db connection */
 require('./database/connection')
 
 var app = express();
+
+require('./passport/auth')
 
 app.use(cors())
 app.use(logger('dev'));
@@ -23,7 +26,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./passport/auth')
 
 /* passport */
 app.use(session({
@@ -41,6 +43,7 @@ app.use((req, res, next) => {
 
 /* use routes */
 app.use('/', indexRouter);
+app.use('/user', userRouter);
 
 app.use((req, res, next) => {
   next(createError(404));
@@ -48,10 +51,8 @@ app.use((req, res, next) => {
 
 /* error handler */
 app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('partials/error');
+  console.log(err)
+  next()
 });
 
 module.exports = app;

@@ -2,6 +2,7 @@
 import Topnav from "./components/Topnav";
 import Home from "./pages/Home";
 import Login from "./pages/Login"
+import Register from "./pages/Register";
 
 /* Material UI imports */
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,13 +14,15 @@ import { light, dark } from "./themes/basicTheme";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
 
+
 require('dotenv').config()
 
 function App() {
 
-  const [theme, setTheme] = useState(false);
+  const [theme, setTheme] = useState(!!JSON.parse(localStorage.getItem('theme')));
   const appliedTheme = createTheme(theme ? light : dark);
-  const changeTheme = (theme) => { return setTheme(!theme) };
+  const changeTheme = (theme) => { localStorage.setItem('theme', !theme); return setTheme(!theme) };
+  
 
   return (
     <ThemeProvider theme={appliedTheme}>
@@ -28,6 +31,7 @@ function App() {
       <Router>
         <Switch>
           <Route exac path='/login' component={Login} />
+          <Route exac path='/register' component={Register} />
           <Route exac path='/' component={Home} />
         </Switch>
       </Router>

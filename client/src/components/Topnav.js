@@ -12,7 +12,8 @@ const Header = props => {
                 <Button color="secondary">Sobre nosotros</Button>
             </Box>
             <Box flexGrow={1} textAlign="right">
-                <Button href="/login" color="secondary">Mi cuenta</Button>
+                <Button href="/login" color="secondary">Iniciar sesión</Button>
+                <Button href="/register" color="secondary">Crear cuenta</Button>
                 <Switch color="secondary" checked={!theme} onChange={() => changeTheme(theme)} />
             </Box>
         </Box>

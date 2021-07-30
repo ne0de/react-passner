@@ -3,6 +3,26 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var userController = require('../controllers/userController.js')
 
+passport.serializeUser((user, done) => { done(null, user.id); });
+
+passport.deserializeUser(async (id, done) => {
+  const user = await userController.findById(id)
+  done(null, user);
+});
+
+passport.use('localRegister', new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password',
+  passReqToCallback: true
+}, async (req, email, password, done) => {
+  const user = await userController.findUserByEmail(email)
+  if (user) return done(null, false);
+  else {
+    console.log(req.body);
+    done(null, req.body);
+  }
+}));
+
 passport.use('facebook', new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
@@ -40,11 +60,3 @@ passport.use('login', new LocalStrategy({
     return done(null, targetUser);
   }
 ));
-
-
-passport.serializeUser((user, done) => { done(null, user.id); });
-
-passport.deserializeUser(async (id, done) => {
-  const user = await userController.findById(id)
-  done(null, user);
-});
