@@ -30,9 +30,9 @@ function App() {
       <Topnav args={[changeTheme, theme]} />
       <Router>
         <Switch>
-          <Route exac path='/login' component={Login} />
-          <Route exac path='/register' component={Register} />
-          <Route exac path='/' component={Home} />
+          <Route path='/login' component={Login} />
+          <Route path='/register' component={Register} />
+          <Route path='/' component={Home} />
         </Switch>
       </Router>
     </ThemeProvider>
