@@ -22,13 +22,24 @@ require('dotenv').config()
 
 function App() {
 
+  axios.interceptors.request.use(function (config) {
+    if ('currentUser' in localStorage) {
+      const token = JSON.parse(localStorage.getItem('currentUser')).accessToken
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  }, function (error) {
+    return Promise.reject(error);
+  });
+
+
   let [theme, setTheme] = useState(!!JSON.parse(localStorage.getItem('theme')));
   let appliedTheme = createMuiTheme(theme ? light : dark);
   let changeTheme = (theme) => { localStorage.setItem('theme', !theme); return setTheme(!theme) };
 
   let [flashMessageVisibility, setFlashMessageVisibility] = useState("flash-message" in localStorage);
   let closeFlashMessage = (visibility) => { localStorage.removeItem('flash-message'); return setFlashMessageVisibility(!visibility) }
-  
+
   return (
     <ThemeProvider theme={appliedTheme}>
       <AuthProvider>

@@ -39,6 +39,7 @@ app.post("/user/login", async (req, res) => {
   if (!user) res.status(400).json("Correo electrónico o contraseña incorrecta!");
   else {
     const accessToken = generateAccessToken(user);
+    console.log("Nuevo token: ", accessToken)
     res.json({
       email: user.email,
       accessToken,
@@ -48,9 +49,7 @@ app.post("/user/login", async (req, res) => {
 
 const verify = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
   if (authHeader) {
-    console.log(authHeader);
     const token = authHeader.split(" ")[1];
 
     jwt.verify(token, "supercontra", (err, user) => {
@@ -66,9 +65,6 @@ const verify = (req, res, next) => {
 };
 
 app.post("/user/logout", verify, (req, res) => {
-  const refreshToken = req.body.token;
-  console.log(refreshToken);
-  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
   res.status(200).json("Te has deslogeado correctamente!");
 });
 

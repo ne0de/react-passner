@@ -16,9 +16,10 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     const handleLogin = async (e, form) => {
-        console.log(form);
+        e.preventDefault();
         try {
             const res = await axios.post('http://localhost:5000/user/login', form);
+            console.log(res)
             setUser(res.data);
             localStorage.setItem('currentUser', JSON.stringify(res.data));
         } catch (err) {
@@ -30,10 +31,12 @@ const AuthProvider = ({ children }) => {
     const handleLogout = async e => {
         try {
             const res = await axios.post('http://localhost:5000/user/logout');
-            console.log(res);
+            localStorage.setItem('flash-message', JSON.stringify({ message: res.data, type: 'success' }));
+            localStorage.removeItem('currentUser');
         } catch (error) {
             console.log(error.response.data);
         }
+        window.location.reload();
     };
 
     const data = { user, handleLogin, handleLogout };
