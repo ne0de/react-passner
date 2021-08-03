@@ -17,7 +17,7 @@ const Register = () => {
                     </Grid>
                     <Grid item xs={2}>
                         <Box display="flex" justifyContent="center"> <Typography variant="h5" component="h1" align="left" gutterBottom> Formulario    </Typography> </Box>
-                        <form onChange={e => handleChange(e)} onSubmit={e => handleSubmit(e)}>
+                        <form onChange={e => handleChange(e)} onSubmit={e => handleSubmit(e, 'register')}>
                             <TextField
                                 variant="outlined"
                                 margin="dense"

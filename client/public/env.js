@@ -1,3 +1,3 @@
 window.env = {
-  "PASSNER_API_URL": "http://localhost:3001"
+  "PASSNER_API_URL": "http://localhost:5000"
 };

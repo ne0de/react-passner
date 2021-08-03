@@ -17,7 +17,7 @@ const Login = () => {
                     </Grid>
                     <Grid item xs={2}>
                         <Box display="flex" justifyContent="center"> <Typography variant="h5" component="h1" align="left" gutterBottom> Inicia sesión  </Typography> </Box>
-                        <form onChange={e => handleChange(e)} onSubmit={e => handleSubmit(e)}>
+                        <form onChange={e => handleChange(e)} onSubmit={e => handleSubmit(e, 'login')}>
                             <TextField
                                 variant="outlined"
                                 margin="dense"
