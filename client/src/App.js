@@ -1,8 +1,11 @@
-/* Components and pages */
-import Topnav from "./components/Topnav";
+/* Components, context and pages */
 import Home from "./pages/Home";
 import Login from "./pages/Login"
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
+
+import Topnav from "./components/Topnav";
 import Flash from "./components/Flash";
 import { AuthProvider } from "./context/UserContext"
 
@@ -15,10 +18,9 @@ import { light, dark } from "./themes/basicTheme";
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
 
 /* React imports */
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
-
-require('dotenv').config()
+import history from "./utils/history";
 
 function App() {
 
@@ -31,7 +33,6 @@ function App() {
   }, function (error) {
     return Promise.reject(error);
   });
-
 
   let [theme, setTheme] = useState(!!JSON.parse(localStorage.getItem('theme')));
   let appliedTheme = createMuiTheme(theme ? light : dark);
@@ -46,11 +47,14 @@ function App() {
         <CssBaseline />
         <Topnav args={[changeTheme, theme]} />
         <Flash args={[flashMessageVisibility, closeFlashMessage]} />
-        <Router>
+        <Router history={history}>
           <Switch>
-            <Route path='/login' component={Login} />
-            <Route path='/register' component={Register} />
-            <Route path='/' component={Home} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/profile' component={Profile} />
+            <Route exact path='/' component={Home} />
+            <Route exact path="" component={NotFound} />
+            <Route exact path="*" component={NotFound} />
           </Switch>
         </Router>
       </AuthProvider>

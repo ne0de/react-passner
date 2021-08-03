@@ -1,7 +1,9 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-//import jwt_decode from "jwt-decode";
+import history from "../utils/history";
 
+
+//import jwt_decode from "jwt-decode";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -19,28 +21,29 @@ const AuthProvider = ({ children }) => {
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:5000/user/login', form);
-            console.log(res)
             setUser(res.data);
             localStorage.setItem('currentUser', JSON.stringify(res.data));
+            history.push("/profile");
         } catch (err) {
             localStorage.setItem('flash-message', JSON.stringify({ message: err.response.data, type: 'warning' }));
-            window.location.reload();
+            history.go(0);
         }
     }
 
     const handleLogout = async e => {
+        e.preventDefault()
         try {
             const res = await axios.post('http://localhost:5000/user/logout');
             localStorage.setItem('flash-message', JSON.stringify({ message: res.data, type: 'success' }));
             localStorage.removeItem('currentUser');
+            history.push("/");
+            history.go(0);
         } catch (error) {
             console.log(error.response.data);
         }
-        window.location.reload();
     };
 
     const data = { user, handleLogin, handleLogout };
-
     return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };
 
