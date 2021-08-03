@@ -2,8 +2,8 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import history from "../utils/history";
 
+import jwt_decode from "jwt-decode";
 
-//import jwt_decode from "jwt-decode";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -13,7 +13,16 @@ const AuthProvider = ({ children }) => {
         const loggedUserJSON = localStorage.getItem('currentUser');
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON);
-            setUser(user);
+            let currentDate = new Date();
+            const decodedToken = jwt_decode(user.accessToken);
+            if (decodedToken.exp * 1000 < currentDate.getTime()) {
+                localStorage.removeItem('currentUser');
+                setUser(null);
+                history.push("/");
+                history.go(0);
+            } else {
+                setUser(user);
+            }
         }
     }, [])
 
