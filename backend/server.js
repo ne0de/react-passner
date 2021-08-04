@@ -20,6 +20,7 @@ app.use(cors({
 
 app.post('/user/register', async (req, res) => {
   const { email } = req.body;
+  console.log(req.body)
   const user = await User.findOne({ 'email': email });
   if (user) return res.status(403).json('Ya existe una cuenta con esas credenciales!')
   else {
